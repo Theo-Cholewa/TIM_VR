@@ -412,6 +412,10 @@ GameObject:
   - component: {fileID: 70944905}
   - component: {fileID: 70944904}
   - component: {fileID: 70944908}
+  - component: {fileID: 70944912}
+  - component: {fileID: 70944911}
+  - component: {fileID: 70944910}
+  - component: {fileID: 70944909}
   m_Layer: 0
   m_Name: AltarScreen
   m_TagString: Untagged
@@ -561,8 +565,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5516a402bfcda442934be9314161f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AltarMediaDisplay
-  targetRenderer: {fileID: 0}
+  targetRenderer: {fileID: 70944906}
   videoPlayer: {fileID: 70944904}
+--- !u!114 &70944909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70944902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1c05e246f22904dacc379a267083b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.PointableElement
+  _transferOnSecondSelection: 0
+  _addNewPointsToFront: 0
+  _forwardElement: {fileID: 0}
+--- !u!114 &70944910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70944902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bff16bb2b8cae9409e88ec4d3527c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.InteractableGroupView
+  _interactables: []
+  _data: {fileID: 0}
+--- !u!114 &70944911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70944902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464721f2283eb14e94a33e812b47be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.InteractableUnityEventWrapper
+  _interactableView: {fileID: 70944910}
+  _whenHover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenUnhover:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1246296443}
+        m_TargetAssemblyTypeName: SelectMediaMenu, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _whenUnselect:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewAdded:
+    m_PersistentCalls:
+      m_Calls: []
+  _whenSelectingInteractorViewRemoved:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &70944912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70944902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb86ba9d4c5126e48bfef9b0c9550e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.RayInteractable
+  _interactorFilters: []
+  _maxInteractors: -1
+  _maxSelectingInteractors: -1
+  _data: {fileID: 0}
+  _pointableElement: {fileID: 70944909}
+  _surface: {fileID: 0}
+  _selectSurface: {fileID: 0}
+  _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
 --- !u!1001 &75139096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4010,12 +4113,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 204cff9f40e610b4fb78ff11c7d26b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectMediaMenu
-  rootCanvas: {fileID: 0}
-  content: {fileID: 0}
-  itemButtonPrefab: {fileID: 0}
-  closeButton: {fileID: 0}
-  xrCamera: {fileID: 0}
+  rootCanvas: {fileID: 1856969168}
+  content: {fileID: 1271744242}
+  itemButtonPrefab: {fileID: 4120298352066900694, guid: ea4f1b578dde32f4382393d0e9d455a3, type: 3}
+  closeButton: {fileID: 1825146354}
+  xrCamera: {fileID: 137770363}
   distanceFromCamera: 1.2
+  videoThumbnailFallback: {fileID: 0}
+  thumbnailChildName: Thumbnail
   altarDisplay: {fileID: 0}
 --- !u!1 &1248068476
 GameObject:
@@ -5389,6 +5494,8 @@ MonoBehaviour:
   closeButton: {fileID: 1825146354}
   xrCamera: {fileID: 137770363}
   distanceFromCamera: 1.2
+  videoThumbnailFallback: {fileID: 0}
+  thumbnailChildName: Thumbnail
   altarDisplay: {fileID: 70944908}
 --- !u!114 &1856969170
 MonoBehaviour:
