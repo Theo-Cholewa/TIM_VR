@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 70944911}
   - component: {fileID: 70944910}
   - component: {fileID: 70944909}
+  - component: {fileID: 70944913}
   m_Layer: 0
   m_Name: AltarScreen
   m_TagString: Untagged
@@ -662,10 +663,24 @@ MonoBehaviour:
   _maxSelectingInteractors: -1
   _data: {fileID: 0}
   _pointableElement: {fileID: 70944909}
-  _surface: {fileID: 0}
+  _surface: {fileID: 70944913}
   _selectSurface: {fileID: 0}
   _movementProvider: {fileID: 0}
   _tiebreakerScore: 0
+--- !u!114 &70944913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70944902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf2a74d69b1c1e41916d2a7afdff5be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Surfaces.PlaneSurface
+  _facing: 0
+  _doubleSided: 0
 --- !u!1001 &75139096
 PrefabInstance:
   m_ObjectHideFlags: 0
