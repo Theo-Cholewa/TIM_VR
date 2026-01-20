@@ -57,7 +57,7 @@ public class SelectMediaMenu : MonoBehaviour
         isOpen = true;
 
         BuildOnce();
-        PlaceInFrontOfCamera();
+        //PlaceInFrontOfCamera();
 
         if (rootCanvas != null)
             rootCanvas.gameObject.SetActive(true);
@@ -71,7 +71,7 @@ public class SelectMediaMenu : MonoBehaviour
         if (rootCanvas != null)
             rootCanvas.gameObject.SetActive(false);
     }
-
+/*
     private void PlaceInFrontOfCamera()
     {
         if (xrCamera == null || rootCanvas == null) return;
@@ -84,7 +84,7 @@ public class SelectMediaMenu : MonoBehaviour
 
         rootCanvas.transform.position = xrCamera.position + forward * distanceFromCamera;
         rootCanvas.transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
-    }
+    }*/
 
     private void BuildOnce()
     {
