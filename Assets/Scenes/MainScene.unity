@@ -703,7 +703,7 @@ MonoBehaviour:
   _editor: {fileID: 26862627}
   _width: 1
   _height: 1
-  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0.078431375}
+  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0}
   _borderColor: {r: 0, g: 0, b: 0, a: 1}
   _radiusTopLeft: 0.3
   _radiusTopRight: 0.3
@@ -736,7 +736,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 26862623}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4563,7 +4563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &531302736
 Transform:
   m_ObjectHideFlags: 0
@@ -6370,7 +6370,7 @@ MonoBehaviour:
   _editor: {fileID: 810728438}
   _width: 1
   _height: 1
-  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0.078431375}
+  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0}
   _borderColor: {r: 0, g: 0, b: 0, a: 1}
   _radiusTopLeft: 0.3
   _radiusTopRight: 0.3
@@ -6403,7 +6403,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 810728434}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -8541,7 +8541,7 @@ MonoBehaviour:
   _editor: {fileID: 1145676189}
   _width: 1
   _height: 1
-  _color: {r: 1, g: 1, b: 1, a: 0.078431375}
+  _color: {r: 1, g: 1, b: 1, a: 0}
   _borderColor: {r: 0, g: 0, b: 0, a: 1}
   _radiusTopLeft: 0.3
   _radiusTopRight: 0.3
@@ -8574,7 +8574,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145676185}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9283,7 +9283,7 @@ MonoBehaviour:
   _editor: {fileID: 1233013172}
   _width: 1
   _height: 1
-  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0.078431375}
+  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0}
   _borderColor: {r: 0, g: 0, b: 0, a: 1}
   _radiusTopLeft: 0.3
   _radiusTopRight: 0.3
@@ -9316,7 +9316,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233013168}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -9801,7 +9801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1350417358
 Transform:
   m_ObjectHideFlags: 0
@@ -10050,7 +10050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1351037258
 Transform:
   m_ObjectHideFlags: 0
@@ -11131,7 +11131,7 @@ MonoBehaviour:
   _editor: {fileID: 1628316973}
   _width: 1
   _height: 1
-  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0.078431375}
+  _color: {r: 0.10173521, g: 0.8207547, b: 0.058072258, a: 0}
   _borderColor: {r: 0, g: 0, b: 0, a: 1}
   _radiusTopLeft: 0.3
   _radiusTopRight: 0.3
@@ -11164,7 +11164,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628316969}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
