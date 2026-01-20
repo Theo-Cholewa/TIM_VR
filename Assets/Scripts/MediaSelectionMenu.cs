@@ -61,6 +61,26 @@ public class MediaSelectionMenu : MonoBehaviour
         }
     }
 
+    public void PlayVideo1()
+    {
+        PlayVideoDebugAtIndex(0, "PlayVideo1");
+    }
+
+    public void PlayVideo2()
+    {
+        PlayVideoDebugAtIndex(1, "PlayVideo2");
+    }
+
+    public void PlayVideo3()
+    {
+        PlayVideoDebugAtIndex(2, "PlayVideo3");
+    }
+
+    public void PlayVideo4()
+    {
+        PlayVideoDebugAtIndex(3, "PlayVideo4");
+    }
+
     private void PlayVideoDebugAtIndex(int index, string keyLabel)
     {
         // Recharge au cas où, mais utilise aussi le cache
