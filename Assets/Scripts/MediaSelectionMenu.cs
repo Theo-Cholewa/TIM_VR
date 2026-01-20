@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.InputSystem;
 
 public class MediaSelectionMenu : MonoBehaviour
 {
@@ -18,23 +19,64 @@ public class MediaSelectionMenu : MonoBehaviour
     [SerializeField] private string imagesPath = "AltarMedia/Images";
     [SerializeField] private string videosPath = "AltarMedia/Videos";
 
+    [Header("Debug")]
+    [Tooltip("Appuie sur S pour jouer automatiquement la première vidéo trouvée.")]
+    [SerializeField] private bool debugPlayFirstVideoOnS = true;
+
     public event Action<Texture2D> OnImageSelected;
     public event Action<VideoClip> OnVideoSelected;
 
     private readonly List<Entry> entries = new();
+    private VideoClip[] cachedVideos = Array.Empty<VideoClip>();
 
     private class Entry
     {
         public string label;
         public bool isVideo;
-        public Texture thumbnail;   // <-- Texture (Texture2D ou autre)
-        public Texture2D image;     // image finale si isVideo=false
-        public VideoClip video;     // si isVideo=true
+        public Texture thumbnail;
+        public Texture2D image;
+        public VideoClip video;
     }
 
     void Start()
     {
         PopulateNow();
+    }
+
+    void Update()
+    {
+        if (!debugPlayFirstVideoOnS) return;
+
+        if (Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            PlayFirstVideoDebug();
+        }
+    }
+
+    private void PlayFirstVideoDebug()
+    {
+        // Recharge au cas où, mais utilise aussi le cache
+        if (cachedVideos == null || cachedVideos.Length == 0)
+            cachedVideos = Resources.LoadAll<VideoClip>(videosPath);
+
+        if (cachedVideos == null || cachedVideos.Length == 0)
+        {
+            Debug.LogWarning($"[MediaSelectionMenu] Debug S: no videos found in Resources/{videosPath}");
+            return;
+        }
+
+        var first = cachedVideos
+            .OrderBy(v => v.name) // "première" déterministe
+            .FirstOrDefault();
+
+        if (first == null)
+        {
+            Debug.LogWarning($"[MediaSelectionMenu] Debug S: first video is null (unexpected)");
+            return;
+        }
+
+        Debug.Log($"[MediaSelectionMenu] Debug S: playing first video = {first.name}");
+        OnVideoSelected?.Invoke(first);
     }
 
     [ContextMenu("Populate Now")]
@@ -62,10 +104,7 @@ public class MediaSelectionMenu : MonoBehaviour
         foreach (var spr in imgsSpr)
         {
             if (spr == null || spr.texture == null) continue;
-
-            // Evite doublon si déjà ajouté via Texture2D
-            if (entries.Any(e => !e.isVideo && e.label == spr.name))
-                continue;
+            if (entries.Any(e => !e.isVideo && e.label == spr.name)) continue;
 
             entries.Add(new Entry
             {
@@ -76,8 +115,8 @@ public class MediaSelectionMenu : MonoBehaviour
             });
         }
 
-        // --- VIDEOS + SIGNATURES (png) : Texture2D + Sprite ---
-        var vids = Resources.LoadAll<VideoClip>(videosPath);
+        // --- VIDEOS + SIGNATURES ---
+        cachedVideos = Resources.LoadAll<VideoClip>(videosPath);
 
         var vidThumbTex = Resources.LoadAll<Texture2D>(videosPath);
         var vidThumbSpr = Resources.LoadAll<Sprite>(videosPath);
@@ -91,9 +130,9 @@ public class MediaSelectionMenu : MonoBehaviour
             if (s != null && s.texture != null)
                 thumbByName[s.name] = s.texture;
 
-        Debug.Log($"[MediaSelectionMenu] Videos={vids.Length} | VideoThumbTex={vidThumbTex.Length} | VideoThumbSprites={vidThumbSpr.Length} (Resources/{videosPath})");
+        Debug.Log($"[MediaSelectionMenu] Videos={cachedVideos.Length} | VideoThumbTex={vidThumbTex.Length} | VideoThumbSprites={vidThumbSpr.Length} (Resources/{videosPath})");
 
-        foreach (var clip in vids)
+        foreach (var clip in cachedVideos)
         {
             thumbByName.TryGetValue(clip.name, out var thumb);
 
@@ -101,7 +140,7 @@ public class MediaSelectionMenu : MonoBehaviour
             {
                 label = clip.name,
                 isVideo = true,
-                thumbnail = thumb, // null si pas trouvé
+                thumbnail = thumb,
                 video = clip
             });
         }
@@ -122,7 +161,8 @@ public class MediaSelectionMenu : MonoBehaviour
         // --- UI BUILD ---
         foreach (var e in ordered)
         {
-            var go = Instantiate(itemPrefab, content);
+            var go = Instantiate(itemPrefab);
+            go.transform.SetParent(content, false);
 
             var btn = go.GetComponent<Button>();
             if (btn == null)
@@ -136,7 +176,6 @@ public class MediaSelectionMenu : MonoBehaviour
             if (txt != null)
                 txt.text = e.isVideo ? $"🎬 {e.label}" : $"🖼️ {e.label}";
 
-            // Thumbnail : enfant "Thumbnail" avec RawImage
             RawImage raw = null;
             var tr = go.transform.Find(thumbnailChildName);
             if (tr != null) raw = tr.GetComponent<RawImage>();
@@ -151,6 +190,8 @@ public class MediaSelectionMenu : MonoBehaviour
 
             btn.onClick.AddListener(() =>
             {
+                Debug.Log($"[MediaSelectionMenu] CLICK: {(e.isVideo ? "VIDEO" : "IMAGE")} {e.label}");
+
                 if (!e.isVideo)
                     OnImageSelected?.Invoke(e.image);
                 else
