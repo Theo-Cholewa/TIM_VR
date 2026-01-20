@@ -27,7 +27,7 @@ public class AltarSelectable : MonoBehaviour
         Debug.Log("ALTARSELECTABLE: menu ctrl = " + ctrl);
 
         if (ctrl != null)
-            ctrl.Populate();
+            ctrl.Show();
 
         var cg = menu.GetComponentInChildren<CanvasGroup>(true);
         if (cg != null)

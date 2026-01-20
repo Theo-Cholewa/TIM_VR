@@ -3,38 +3,71 @@ using UnityEngine.Video;
 
 public class AltarMediaDisplay : MonoBehaviour
 {
-    [Header("Quad")]
-    [SerializeField] private MeshRenderer quadRenderer;
-    [SerializeField] private string textureProperty = "_MainTex"; // Unlit/Standard
+    [Header("Target")]
+    [SerializeField] private MeshRenderer targetRenderer;
+
     [Header("Video")]
     [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private RenderTexture videoTexture;
 
-    private Material _mat;
+    private MaterialPropertyBlock mpb;
+    private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 
-    private void Awake()
+    void Awake()
     {
-        _mat = quadRenderer.material;
-        if (videoPlayer != null) videoPlayer.Stop();
+        mpb = new MaterialPropertyBlock();
+
+        if (videoPlayer != null)
+        {
+            videoPlayer.playOnAwake = false;
+            videoPlayer.isLooping = true;
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        }
     }
 
-    public void ShowImage(Texture tex)
+    public void ShowImage(Texture2D tex)
     {
-        if (videoPlayer != null) videoPlayer.Stop();
-        _mat.SetTexture(textureProperty, tex);
+        if (tex == null || targetRenderer == null) return;
+
+        if (videoPlayer != null && videoPlayer.isPlaying)
+            videoPlayer.Stop();
+
+        targetRenderer.GetPropertyBlock(mpb);
+        mpb.SetTexture(MainTex, tex);
+        targetRenderer.SetPropertyBlock(mpb);
     }
 
-    public void PlayVideo(VideoClip clip, bool loop = true)
+    public void ShowVideo(VideoClip clip)
     {
-        if (clip == null) return;
+        if (clip == null || targetRenderer == null || videoPlayer == null) return;
 
-        videoPlayer.Stop();
-        videoPlayer.isLooping = loop;
-        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
-        videoPlayer.targetTexture = videoTexture;
+        if (videoPlayer.targetTexture == null)
+        {
+            var rt = new RenderTexture(1024, 1024, 0, RenderTextureFormat.ARGB32);
+            rt.Create();
+            videoPlayer.targetTexture = rt;
+        }
+
+        targetRenderer.GetPropertyBlock(mpb);
+        mpb.SetTexture(MainTex, videoPlayer.targetTexture);
+        targetRenderer.SetPropertyBlock(mpb);
+
         videoPlayer.clip = clip;
-
-        _mat.SetTexture(textureProperty, videoTexture);
         videoPlayer.Play();
+    }
+
+    public void StopVideo()
+    {
+        if (videoPlayer != null)
+            videoPlayer.Stop();
+    }
+
+    public void Clear()
+    {
+        StopVideo();
+        if (targetRenderer == null) return;
+
+        targetRenderer.GetPropertyBlock(mpb);
+        mpb.SetTexture(MainTex, null);
+        targetRenderer.SetPropertyBlock(mpb);
     }
 }
