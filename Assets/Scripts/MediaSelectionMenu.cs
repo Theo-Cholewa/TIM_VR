@@ -23,6 +23,9 @@ public class MediaSelectionMenu : MonoBehaviour
     [Tooltip("Appuie sur S pour jouer automatiquement la première vidéo trouvée.")]
     [SerializeField] private bool debugPlayFirstVideoOnS = true;
 
+    [Tooltip("Appuie sur E pour jouer automatiquement la deuxième vidéo trouvée.")]
+    [SerializeField] private bool debugPlaySecondVideoOnE = true;
+
     public event Action<Texture2D> OnImageSelected;
     public event Action<VideoClip> OnVideoSelected;
 
@@ -45,15 +48,20 @@ public class MediaSelectionMenu : MonoBehaviour
 
     void Update()
     {
-        if (!debugPlayFirstVideoOnS) return;
+        if (Keyboard.current == null) return;
 
-        if (Keyboard.current != null && Keyboard.current.sKey.wasPressedThisFrame)
+        if (debugPlayFirstVideoOnS && Keyboard.current.sKey.wasPressedThisFrame)
         {
-            PlayFirstVideoDebug();
+            PlayVideoDebugAtIndex(0, "S");
+        }
+
+        if (debugPlaySecondVideoOnE && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            PlayVideoDebugAtIndex(1, "E");
         }
     }
 
-    private void PlayFirstVideoDebug()
+    private void PlayVideoDebugAtIndex(int index, string keyLabel)
     {
         // Recharge au cas où, mais utilise aussi le cache
         if (cachedVideos == null || cachedVideos.Length == 0)
@@ -61,22 +69,31 @@ public class MediaSelectionMenu : MonoBehaviour
 
         if (cachedVideos == null || cachedVideos.Length == 0)
         {
-            Debug.LogWarning($"[MediaSelectionMenu] Debug S: no videos found in Resources/{videosPath}");
+            Debug.LogWarning($"[MediaSelectionMenu] Debug {keyLabel}: no videos found in Resources/{videosPath}");
             return;
         }
 
-        var first = cachedVideos
-            .OrderBy(v => v.name) // "première" déterministe
-            .FirstOrDefault();
+        // Liste déterministe : tri par nom
+        var ordered = cachedVideos
+            .Where(v => v != null)
+            .OrderBy(v => v.name)
+            .ToArray();
 
-        if (first == null)
+        if (ordered.Length == 0)
         {
-            Debug.LogWarning($"[MediaSelectionMenu] Debug S: first video is null (unexpected)");
+            Debug.LogWarning($"[MediaSelectionMenu] Debug {keyLabel}: videos list is empty after filtering nulls");
             return;
         }
 
-        Debug.Log($"[MediaSelectionMenu] Debug S: playing first video = {first.name}");
-        OnVideoSelected?.Invoke(first);
+        if (index < 0 || index >= ordered.Length)
+        {
+            Debug.LogWarning($"[MediaSelectionMenu] Debug {keyLabel}: requested index {index} but only {ordered.Length} video(s) found");
+            return;
+        }
+
+        var clip = ordered[index];
+        Debug.Log($"[MediaSelectionMenu] Debug {keyLabel}: playing video #{index + 1}/{ordered.Length} = {clip.name}");
+        OnVideoSelected?.Invoke(clip);
     }
 
     [ContextMenu("Populate Now")]
