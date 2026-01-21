@@ -24,7 +24,7 @@ public class MediaDisplayReceiver : MonoBehaviour
         if (videoPlayer != null)
         {
             videoPlayer.playOnAwake = false;
-            videoPlayer.isLooping = true;
+            videoPlayer.isLooping = false;
             videoPlayer.renderMode = VideoRenderMode.RenderTexture;
 
             // IMPORTANT : laisse targetTexture null, le script la crée si besoin
